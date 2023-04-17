@@ -1,31 +1,71 @@
-<form>
+<form [formGroup]="carForm" (ngSubmit)="addCar()">
   <div mat-dialog-title>Add Car</div>
   <div mat-dialog-content>
     <div class="row">
       <mat-form-field>
         <mat-label>Model</mat-label>
-        <input type="text" matInput placeholder="mazda" />
+        <input
+          type="text"
+          matInput
+          placeholder="mazda"
+          formControlName="model"
+        />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Model</mat-label>
-        <input type="text" matInput placeholder="mazda" />
+        <mat-label>Number</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="BH3456"
+          formControlName="number"
+        />
       </mat-form-field>
       <br />
     </div>
     <div class="row">
+      <mat-form-field appearance="fill">
+        <mat-label>Colors</mat-label>
+        <mat-select formControlName="color" name="color">
+          <mat-option *ngFor="let col of colors" [value]="col">
+            {{ col }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Types</mat-label>
+        <mat-select formControlName="type" name="type">
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{ type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
       <mat-form-field>
-        <mat-label>Model</mat-label>
-        <input type="text" matInput placeholder="mazda" />
+        <mat-label>Year</mat-label>
+        <input type="text" matInput placeholder="type" formControlName="year" />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Model</mat-label>
-        <input type="text" matInput placeholder="mazda" />
+        <mat-label>V_Engine</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="vEngine"
+          formControlName="vEngine"
+        />
       </mat-form-field>
+    </div>
+    <div class="row">
+      <label id="example-radio-group-label">Is a new car?</label>
+      <mat-radio-group>
+        <mat-radio-button value="1">Yes</mat-radio-button>
+        <mat-radio-button value="0" checked>No</mat-radio-button>
+      </mat-radio-group>
     </div>
   </div>
 
   <div mat-dialog-actions>
-    <button mat-raised-button color="primary">Save</button>
-    <button mat-raised-button color="warn">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
+    <button mat-raised-button color="warn" type="button">Cancel</button>
   </div>
 </form>

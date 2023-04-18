@@ -36,6 +36,7 @@ export class FormAddCarComponent implements OnInit {
         next: () => {
           alert('Success!');
           this._window.close();
+          this._carService.subject.next(this.carForm.value);
         },
         error: (err) => {
           console.log(err);

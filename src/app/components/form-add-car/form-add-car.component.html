@@ -1,5 +1,5 @@
 <form [formGroup]="carForm" (ngSubmit)="addCar()">
-  <div mat-dialog-title>Add Car</div>
+  <div mat-dialog-title>{{ data ? "Update Car" : "Add Car" }}</div>
   <div mat-dialog-content>
     <div class="row">
       <mat-form-field>
@@ -57,9 +57,13 @@
     </div>
     <div class="row">
       <label id="example-radio-group-label">Is a new car?</label>
-      <mat-radio-group>
-        <mat-radio-button value="1">Yes</mat-radio-button>
-        <mat-radio-button value="0" checked>No</mat-radio-button>
+      <mat-radio-group formControlName="isNew">
+        <mat-radio-button value="true" [checked]="data ? data.isNew : true"
+          >Yes</mat-radio-button
+        >
+        <mat-radio-button value="false" [checked]="data ? !data.isNew : false"
+          >No</mat-radio-button
+        >
       </mat-radio-group>
     </div>
   </div>

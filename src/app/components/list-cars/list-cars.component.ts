@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ICar } from 'src/app/models/ICar';
 import { CarsService } from 'src/app/services/cars.service';
+import { FormAddCarComponent } from '../form-add-car/form-add-car.component';
 
 @Component({
   selector: 'app-list-cars',
@@ -21,13 +23,14 @@ export class ListCarsComponent implements OnInit {
     'isNew',
     'vEngine',
     'actions',
+    'edit',
   ];
 
   dataSource!: MatTableDataSource<ICar>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private _carService: CarsService) {}
+  constructor(private _carService: CarsService, private _window: MatDialog) {}
 
   ngOnInit(): void {
     this.getAllCars();
@@ -37,8 +40,6 @@ export class ListCarsComponent implements OnInit {
       },
     });
   }
-
-  ngAfterViewInit(): void {}
 
   getAllCars(): void {
     this._carService.getAllCars().subscribe({
@@ -69,5 +70,9 @@ export class ListCarsComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  updateCar(data: any): void {
+    this._window.open(FormAddCarComponent, { data });
   }
 }

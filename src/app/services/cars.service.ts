@@ -23,4 +23,8 @@ export class CarsService {
   deleteCarById(id: number): Observable<any> {
     return this._httpClient.delete(environment.pathToServer + id);
   }
+
+  updateCarById(id: number, data: any): Observable<any> {
+    return this._httpClient.put(environment.pathToServer + id, data);
+  }
 }

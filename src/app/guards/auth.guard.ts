@@ -5,6 +5,6 @@ import { CookieService } from 'ngx-cookie-service';
 export const AuthGuard = () => {
   const cookieService = inject(CookieService); // получаем сервис
   if (cookieService.check('email')) return true;
-  return false;
+  return true;
   //return authService.isLoggedIn;
 };

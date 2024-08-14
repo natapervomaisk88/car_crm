@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ICar } from 'src/app/models/ICar';
 import { CarsService } from 'src/app/services/cars.service';
 import { FormAddCarComponent } from '../form-add-car/form-add-car.component';
+import { ColorsService } from 'src/app/services/colors.service';
+import { IColor } from 'src/app/models/IColor';
 
 @Component({
   selector: 'app-list-cars',
@@ -27,10 +29,13 @@ export class ListCarsComponent implements OnInit {
   ];
 
   dataSource!: MatTableDataSource<ICar>;
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private _carService: CarsService, private _window: MatDialog) {}
+  constructor(
+    private _carService: CarsService,
+    private _colorSevice: ColorsService,
+    private _window: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getAllCars();
@@ -44,9 +49,21 @@ export class ListCarsComponent implements OnInit {
   getAllCars(): void {
     this._carService.getAllCars().subscribe({
       next: (data) => {
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this._colorSevice.getAllColors().subscribe({
+          next: (colors) => {
+            data.map((car: ICar) => {
+              colors.map((color: IColor) => {
+                if (+car.color == color.id) {
+                  car.color = color.title;
+                }
+              });
+            });
+            this.dataSource = new MatTableDataSource(data);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          },
+          error: (err) => console.log(err),
+        });
       },
       error: (err) => console.log(err),
     });

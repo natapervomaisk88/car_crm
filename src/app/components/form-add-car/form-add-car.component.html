@@ -26,8 +26,8 @@
       <mat-form-field appearance="fill">
         <mat-label>Colors</mat-label>
         <mat-select formControlName="color" name="color">
-          <mat-option *ngFor="let col of colors" [value]="col">
-            {{ col }}
+          <mat-option *ngFor="let col of colors" [value]="col.id">
+            {{ col.title }}
           </mat-option>
         </mat-select>
       </mat-form-field>

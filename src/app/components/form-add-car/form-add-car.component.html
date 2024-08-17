@@ -34,8 +34,8 @@
       <mat-form-field appearance="fill">
         <mat-label>Types</mat-label>
         <mat-select formControlName="type" name="type">
-          <mat-option *ngFor="let type of types" [value]="type">
-            {{ type }}
+          <mat-option *ngFor="let type of types" [value]="type.id">
+            {{ type.title }}
           </mat-option>
         </mat-select>
       </mat-form-field>

@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ColorsService } from 'src/app/services/colors.service';
 import { TypesService } from 'src/app/services/types.service';
 import { IColor } from 'src/app/models/IColor';
+import { IType } from 'src/app/models/IType';
 @Component({
   selector: 'app-form-add-car',
   templateUrl: './form-add-car.component.html',
@@ -14,7 +15,7 @@ import { IColor } from 'src/app/models/IColor';
 export class FormAddCarComponent implements OnInit {
   carForm!: FormGroup;
   colors: Array<IColor> = [];
-  types: string[] = ['hatchback', 'sedan', 'cabriolet'];
+  types: Array<IType> = [];
   constructor(
     private _fb: FormBuilder,
     private _carService: CarsService,
@@ -32,18 +33,17 @@ export class FormAddCarComponent implements OnInit {
       error: (err) => console.log(err),
     });
   }
-
+  getAllTypes(): void {
+    this._typeService.getAllTypes().subscribe({
+      next: (data) => {
+        this.types.push(...data);
+      },
+      error: (err) => console.log(err),
+    });
+  }
   ngOnInit(): void {
     this.getAllColors();
-    // this.carForm = new FormGroup({
-    //   model: new FormControl(''),
-    //   year: new FormControl(''),
-    //   number: new FormControl(''),
-    //   color: new FormControl(''),
-    //   type: new FormControl(''),
-    //   isNew: new FormControl(''),
-    //   vEngine: new FormControl(0),
-    // });
+    this.getAllTypes();
 
     this.carForm = this._fb.group({
       model: '',

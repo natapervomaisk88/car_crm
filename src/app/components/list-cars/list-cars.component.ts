@@ -8,6 +8,8 @@ import { CarsService } from 'src/app/services/cars.service';
 import { FormAddCarComponent } from '../form-add-car/form-add-car.component';
 import { ColorsService } from 'src/app/services/colors.service';
 import { IColor } from 'src/app/models/IColor';
+import { TypesService } from 'src/app/services/types.service';
+import { IType } from 'src/app/models/IType';
 
 @Component({
   selector: 'app-list-cars',
@@ -34,6 +36,7 @@ export class ListCarsComponent implements OnInit {
   constructor(
     private _carService: CarsService,
     private _colorSevice: ColorsService,
+    private _typeService: TypesService,
     private _window: MatDialog
   ) {}
 
@@ -58,9 +61,21 @@ export class ListCarsComponent implements OnInit {
                 }
               });
             });
-            this.dataSource = new MatTableDataSource(data);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+            this._typeService.getAllTypes().subscribe({
+              next: (types) => {
+                data.map((car: ICar) => {
+                  types.map((type: IType) => {
+                    if (+car.type == type.id) {
+                      car.type = type.title;
+                    }
+                  });
+                });
+                this.dataSource = new MatTableDataSource(data);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              },
+              error: (err) => console.log(err),
+            });
           },
           error: (err) => console.log(err),
         });
